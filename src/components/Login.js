@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   background: {
     width,
-    height,
+    height
   },
   wrapper: {
     paddingVertical: 30,
@@ -193,22 +193,22 @@ const styles = StyleSheet.create({
   iconWrap: {
     paddingHorizontal: 7,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   icon: {
     height: 20,
-    width: 20,
+    width: 20
   },
   input: {
     flex: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   button: {
     backgroundColor: '#FF3366',
     paddingVertical: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 30
   },
   buttonText: {
     color: '#FFF',

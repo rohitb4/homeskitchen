@@ -4,6 +4,7 @@ import { AppRegistry, Navigator, StyleSheet, View } from 'react-native';
 import CreateUser from './src/components/CreateUser';
 import Login from './src/components/Login';
 import ShowPackages from './src/components/ShowPackages';
+import Success from './src/components/Success';
 
 var styles = StyleSheet.create({
   mainStyle: {
@@ -23,6 +24,7 @@ class HomesKitchen extends Component {
       case 'Login': return <Login title={route.title} nav={navigator} {...route.passProps} />;
       case 'CreateUser': return <CreateUser nav={navigator} {...route.passProps} />;
       case 'ShowPackages': return <ShowPackages nav={navigator} {...route.passProps} />;
+      case 'Success': return <Success nav={navigator} {...route.passProps} />;
     }
   }
 

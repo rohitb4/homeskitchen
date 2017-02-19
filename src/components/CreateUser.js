@@ -9,27 +9,28 @@ import {
 } from 'react-native';
 import { Spinner } from './common';
 
+import {lib} from './common/lib';
+
 const background = require('../../Images/signup/signup_bg.png');
 const backIcon = require('../../Images/signup/back.png');
 const personIcon = require('../../Images/signup/signup_person.png');
 const lockIcon = require('../../Images/signup/signup_lock.png');
 const emailIcon = require('../../Images/signup/signup_email.png');
-const birthdayIcon = require('../../Images/signup/signup_birthday.png');
 
 export default class CreateUser extends Component {
 
-  state = { email: '', password: '', error: '', loading: false, name: '', dob: '', address: '' };
+  state = { email: '', password: '', error: '', loading: false, name: '',  };
 
   onPress() {
     const { email, password, name, address, dob } = this.state;
     this.setState({ error: '', loading: true });
 
-    if (email !== '' && password !== '' && name !== '' && address !== '' && dob !== '') {
+    if (email !== '' && password !== '' && name !== '') {
       var details = {
           'username': email,
           'password': password,
-          'address': address,
-          'dob': dob,
+          'address': 'Hell is Heaven!',
+          'dob': '01/08/1990',
           'email': email,
           'firstname': name,
           'lastname': name
@@ -43,30 +44,32 @@ export default class CreateUser extends Component {
       }
       formBody = formBody.join("&");
 
-      fetch('http://35.154.68.252:8080/homesKitchen/webapi/users/createuser', {
+      fetch(`${lib.serverUrl}/users/createuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: formBody
         })
-        .then((response) => this.onLoginSuccess(response, this))
-        .catch((error) => this.onLoginFail(error, this));
+        .then((response) => {
+          this.setState({ 
+            error: response.status == 200 ? 'User Created Sucessfully' : 'User Creation Failed',
+            loading: false, 
+            email: '', 
+            password: '', 
+            name: '' 
+          });
+          this.props.nav.push({
+            index: 'Success',
+            message: 'User Created Successfully'
+          });
+        })
+        .catch((error) => {
+          this.setState({ error: 'Authentication Failed' + error, loading: false });
+        });
       } else {
-        this.setState({ error: 'User Fields Empty', loading: false, email: '', password: '', name: '', address: '', dob: '' });
+        this.setState({ error: 'User Fields Empty', loading: false });
       }
-  }
-
-  onLoginSuccess(response, state) {
-    if (response.status === 200) {
-      state.setState({ error: 'User Created Sucessfully', loading: false, email: '', password: '', name: '', address: '', dob: '' });
-    } else {
-      state.setState({ error: 'User Creation Failed', loading: false, email: '', password: '', name: '', address: '', dob: '' });
-    }
-  }
-
-  onLoginFail(error, state) {
-    state.setState({ error: 'Authentication Failed', loading: false });
   }
 
   renderButton() {
@@ -118,13 +121,11 @@ export default class CreateUser extends Component {
           <View style={styles.inputsContainer}>
 
             <View style={styles.inputContainer}>
-              <View style={styles.iconContainer}>
-                <Image
+              <Image
                   source={personIcon}
                   style={styles.inputIcon}
                   resizeMode="contain"
                 />
-              </View>
               <TextInput
                 style={[styles.input, styles.whiteFont]}
                 placeholder="Name"
@@ -136,13 +137,12 @@ export default class CreateUser extends Component {
             </View>
 
             <View style={styles.inputContainer}>
-              <View style={styles.iconContainer}>
-                <Image
+              
+               <Image
                   source={emailIcon}
                   style={styles.inputIcon}
                   resizeMode="contain"
                 />
-              </View>
               <TextInput
                 style={[styles.input, styles.whiteFont]}
                 placeholder="Email"
@@ -153,13 +153,11 @@ export default class CreateUser extends Component {
             </View>
 
             <View style={styles.inputContainer}>
-              <View style={styles.iconContainer}>
-                <Image
+               <Image
                   source={lockIcon}
                   style={styles.inputIcon}
                   resizeMode="contain"
                 />
-              </View>
               <TextInput
                 secureTextEntry
                 style={[styles.input, styles.whiteFont]}
@@ -167,42 +165,6 @@ export default class CreateUser extends Component {
                 placeholderTextColor="#FFF"
                 value={this.state.password}
                 onChangeText={password => this.setState({ password })}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <View style={styles.iconContainer}>
-                <Image
-                  source={birthdayIcon}
-                  style={styles.inputIcon}
-                  resizeMode="contain"
-                />
-              </View>
-              <TextInput
-                style={[styles.input, styles.whiteFont]}
-                placeholder="Birthday"
-                placeholderTextColor="#FFF"
-                underlineColorAndroid='transparent'
-                value={this.state.dob}
-                onChangeText={dob => this.setState({ dob })}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <View style={styles.iconContainer}>
-                <Image
-                  source={personIcon}
-                  style={styles.inputIcon}
-                  resizeMode="contain"
-                />
-              </View>
-              <TextInput
-                style={[styles.input, styles.whiteFont]}
-                placeholder="Address"
-                placeholderTextColor="#FFF"
-                underlineColorAndroid='transparent'
-                value={this.state.address}
-                onChangeText={address => this.setState({ address })}
               />
             </View>
 
@@ -304,15 +266,14 @@ let styles = StyleSheet.create({
     borderColor: 'transparent',
     flexDirection: 'row',
     height: 60,
-  },
-  iconContainer: {
-    paddingHorizontal: 15,
+
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   inputIcon: {
     width: 25,
     height: 25,
+    paddingHorizontal: 15
   },
   input: {
     flex: 1,
