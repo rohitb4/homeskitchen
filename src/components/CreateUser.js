@@ -61,7 +61,9 @@ export default class CreateUser extends Component {
           });
           this.props.nav.push({
             index: 'Success',
-            message: 'User Created Successfully'
+            passProps: {
+              message: 'User Created Successfully'
+            }
           });
         })
         .catch((error) => {
