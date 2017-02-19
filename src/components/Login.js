@@ -6,7 +6,8 @@ import {
   Image,
   Dimensions,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import { Spinner } from './common';
 import {lib} from './common/lib';
@@ -39,7 +40,7 @@ export default class Login extends Component {
     }
     formBody = formBody.join("&");
 
-    fetch(`${lib.serverUrl}homeskitchen//webapi/users/login`, {
+    fetch(`${lib.serverUrl}homeskitchen/webapi/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -61,6 +62,9 @@ export default class Login extends Component {
           sessionID: cookieVal
         }
       });
+      try {
+        await AsyncStorage.setItem('sessionKey', cookieVal);
+      } 
     } else {
       state.setState({ error: 'Auth Failed', loading: false, email: '', password: '' });
     }
