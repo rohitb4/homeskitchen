@@ -44,7 +44,7 @@ export default class CreateUser extends Component {
       }
       formBody = formBody.join("&");
 
-      fetch(`${lib.serverUrl}/users/createuser`, {
+      fetch(`${lib.serverUrl}homesKitchen/webapi/users/createuser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

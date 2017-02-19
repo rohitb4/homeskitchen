@@ -25,10 +25,10 @@ export default class Success extends Component {
                 });
               }}
             >
-              <View>
-                <Text style={styles.successText}>Click here to Login now!</Text>
-              </View>
-            </TouchableOpacity>
+            <View>
+              <Text style={styles.successText}>Click here to Login now!</Text>
+            </View>
+          </TouchableOpacity>
       </View>
     );
   }

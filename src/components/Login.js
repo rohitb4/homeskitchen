@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Spinner } from './common';
+import {lib} from './common/lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -38,7 +39,7 @@ export default class Login extends Component {
     }
     formBody = formBody.join("&");
 
-    fetch('http://35.154.68.252:8080/homesKitchen/webapi/users/login', {
+    fetch(`${lib.serverUrl}homeskitchen//webapi/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
